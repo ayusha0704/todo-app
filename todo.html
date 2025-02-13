@@ -44,6 +44,17 @@
         font-size: 18px;
         border-radius: 5px;
       }
+      @media only screen and (max-width : 1024px){
+        .todo_list{
+          width: 50%;
+        }
+      }
+      @media only screen and (max-width : 640px){
+        .todo_list{
+          width: calc(100% - 60px);
+          margin: 15px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -60,6 +71,7 @@
       let storeIndexNumber,
         todoDataHtml = "",
         todoData = [],
+        editableValue = "",
         isUpdate = false;
 
       let form = document.getElementById("form"),
@@ -84,7 +96,7 @@
             errorTxt.innerHTML = "Please Enter Something";
           }
         } else {
-          if (todoData.includes(inputValue.value)) {
+          if (todoData.includes(editableValue)) {
             let updatelist = inputValue.value;
             todoData[indexNumber] = updatelist;
             dataList();
@@ -113,6 +125,7 @@
         inputValue.value = todoData[index];
         addBtn.innerHTML = "update";
         isUpdate = true;
+        editableValue = todoData[index];
       };
 
       const dataList = () => {
