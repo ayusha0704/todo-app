@@ -1,2 +1,140 @@
-<p>hello good morning</p>
-<p>my name is ayusha</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todo list</title>
+    <style>
+      .todo_list {
+        width: 30%;
+        margin: 0 auto;
+        background-color: #ffb3c6;
+        padding: 20px;
+      }
+      .head {
+        display: flex;
+        gap: 10px;
+      }
+      .text {
+        width: 100%;
+        padding: 10px;
+        font-size: 20px;
+      }
+      .btn {
+        font-size: 20px;
+        padding: 10px 15px;
+        background-color: rgb(0, 0, 0);
+        border: none;
+        color: white;
+      }
+      .data {
+        display: flex;
+        justify-content: space-between;
+
+        font-size: 20px;
+      }
+      .btn1 {
+        display: flex;
+        gap: 10px;
+      }
+      .del_btn {
+        background-color: #fb6f92;
+        border: none;
+        padding: 10px 15px;
+        font-size: 18px;
+        border-radius: 5px;
+      }
+      @media only screen and (max-width : 1024px){
+        .todo_list{
+          width: 50%;
+        }
+      }
+      @media only screen and (max-width : 640px){
+        .todo_list{
+          width: calc(100% - 60px);
+          margin: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="todo_list">
+      <form class="head" id="form">
+        <input type="text" id="input_value" class="text" />
+        <button class="btn" id="add"></button>
+      </form>
+      <div id="error"></div>
+      <div id="data"></div>
+    </div>
+
+    <script>
+      let storeIndexNumber,
+        todoDataHtml = "",
+        todoData = [],
+        editableValue = "",
+        isUpdate = false;
+
+      let form = document.getElementById("form"),
+        inputValue = document.getElementById("input_value"),
+        addBtn = document.getElementById("add"),
+        errorTxt = document.getElementById("error");
+      addBtn.innerHTML = "add";
+
+      if (todoData.length === 0) {
+        errorTxt.innerHTML = "no data found";
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (isUpdate === false) {
+          if (inputValue.value != "") {
+            todoData.push(inputValue.value);
+            dataList();
+            inputValue.value = "";
+            errorTxt.innerHTML = "";
+          } else {
+            errorTxt.innerHTML = "Please Enter Something";
+          }
+        } else {
+          if (todoData.includes(editableValue)) {
+            let updatelist = inputValue.value;
+            todoData[indexNumber] = updatelist;
+            dataList();
+            inputValue.value = "";
+            addBtn.innerHTML = "add";
+            isUpdate = false;
+          } else {
+            errorTxt.innerHTML = "this data is not found";
+            inputValue.value = "";
+            addBtn.innerHTML = "add";
+            isUpdate = false;
+          }
+        }
+      });
+
+      const deleteValue = (id) => {
+        todoData.splice(id, 1);
+        dataList();
+        if (todoData.length === 0) {
+          errorTxt.innerHTML = "no data found";
+        }
+      };
+
+      const editValue = (index) => {
+        indexNumber = index;
+        inputValue.value = todoData[index];
+        addBtn.innerHTML = "update";
+        isUpdate = true;
+        editableValue = todoData[index];
+      };
+
+      const dataList = () => {
+        todoData.map((v, i) => {
+          todoDataHtml += `<ul><li class="data">${v}<div class="btn1"><button class="del_btn" onclick="editValue(${i})">Edit</button><button class="del_btn" onclick="deleteValue(${i})">delete</button></div></li></ul>`;
+        });
+        document.getElementById("data").innerHTML = todoDataHtml;
+        todoDataHtml = "";
+      };
+    </script>
+  </body>
+</html>
